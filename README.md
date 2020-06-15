@@ -6,6 +6,8 @@
 
 ### Backend
 - [x] Golang
-- [x] Gin
+- [x] Gin Gonic
 - [x] AWS S3
 - [x] MongoDB
+- [x] Unit testing
+- [] CI/CD
