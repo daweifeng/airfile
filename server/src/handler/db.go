@@ -12,7 +12,7 @@ type Record struct {
 	Name string
 }
 
-//Create creating a record in a mongo
+//CreateRecord creating a record in a mongo
 func CreateRecord(record *Record) (primitive.ObjectID, error) {
 	client, ctx, cancel := DBConnection()
 	defer cancel()
@@ -28,7 +28,7 @@ func CreateRecord(record *Record) (primitive.ObjectID, error) {
 	return oid, nil
 }
 
-// Gwet record from db
+// GetRecord getting record from db
 func GetRecord(id string) (string, error) {
 	client, ctx, cancel := DBConnection()
 	defer cancel()
