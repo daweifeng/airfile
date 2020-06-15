@@ -27,3 +27,12 @@ func RemoveTimestamp(s string) string {
 
 	return result
 }
+
+// FetchTimestamp will get timestamp from filename
+func FetchTimestamp(s string) string {
+	sectionArr := strings.Split(s, "_")
+
+	index := len(sectionArr) - 1
+	return sectionArr[index]
+
+}

@@ -31,3 +31,21 @@ func TestRemoveTimestamp(t *testing.T) {
 	}
 
 }
+
+func TestFetchTimestamp(t *testing.T) {
+	cases := []struct {
+		in, want string
+	}{
+		{"testing_2.pdf_1592176571433757000", "1592176571433757000"},
+		{"testing.pdf_1592176571433757000", "1592176571433757000"},
+		{"", ""},
+	}
+
+	for _, c := range cases {
+		got := FetchTimestamp(c.in)
+		if got != c.want {
+			t.Errorf("RemoveTimestamp(%q) == %q, want %q", c.in, got, c.want)
+		}
+	}
+
+}
