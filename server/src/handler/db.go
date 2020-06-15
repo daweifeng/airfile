@@ -3,6 +3,7 @@ package handler
 import (
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -25,4 +26,21 @@ func CreateRecord(record *Record) (primitive.ObjectID, error) {
 	}
 	oid := result.InsertedID.(primitive.ObjectID)
 	return oid, nil
+}
+
+// Gwet record from db
+func GetRecord(id string) (string, error) {
+	client, ctx, cancel := DBConnection()
+	defer cancel()
+	defer client.Disconnect(ctx)
+
+	objID, err := primitive.ObjectIDFromHex(id)
+
+	result := client.Database("airfile").Collection(("records")).FindOne(ctx, bson.M{"_id": objID})
+
+	var record Record
+
+	err = result.Decode(&record)
+
+	return record.Name, err
 }
