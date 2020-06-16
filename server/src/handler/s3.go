@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -34,4 +35,24 @@ func UploadToS3(fileName string, fileSize int64, r io.Reader) (string, error) {
 	})
 
 	return fileName, err
+}
+
+// GetPresignedUrl will get presigned url of the s3 object
+func GetPresignedUrl(fileName string) (string, error) {
+	//Create AWS session
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(os.Getenv("AWS_REGION")),
+	})
+
+	req, _ := s3.New(sess).GetObjectRequest(&s3.GetObjectInput{
+		Bucket: aws.String(os.Getenv("S3_BUCKET")),
+		Key:    aws.String("files/" + fileName),
+	})
+	urlStr, err := req.Presign(15 * time.Minute)
+
+	if err != nil {
+		return "", err
+	}
+
+	return urlStr, nil
 }
