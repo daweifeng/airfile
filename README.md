@@ -10,4 +10,4 @@
 - [x] AWS S3
 - [x] MongoDB
 - [x] Unit testing
-- [] CI/CD
+- [ ] CI/CD
