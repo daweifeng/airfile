@@ -36,3 +36,12 @@ func FetchTimestamp(s string) string {
 	return sectionArr[index]
 
 }
+
+// GenerateTime will generate time object of the timestamp
+func GenerateTime(timestamp string) time.Time {
+	i, err := strconv.ParseInt(timestamp, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+	return time.Unix(0, i)
+}

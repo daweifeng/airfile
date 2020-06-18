@@ -49,3 +49,21 @@ func TestFetchTimestamp(t *testing.T) {
 	}
 
 }
+
+func TestGenerateTime(t *testing.T) {
+	cases := []struct {
+		in   string
+		want int64
+	}{
+		{"1592176571433757000", 1592176571433757000},
+		{"1592176571433757000", 1592176571433757000},
+	}
+
+	for _, c := range cases {
+		got := GenerateTime(c.in)
+		if got.UnixNano() != c.want {
+			t.Errorf("GenerateTime(%q) == %q, want %q", c.in, got.UnixNano(), c.want)
+		}
+	}
+
+}
