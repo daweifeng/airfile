@@ -34,6 +34,8 @@ func main() {
 
 	// Handle file upload
 	r.POST("/api/upload", controller.Upload)
+	// Handle file download
+	r.GET("/api/download", controller.Download)
 
 	r.Run(":8080")
 }
