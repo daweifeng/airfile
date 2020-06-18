@@ -2,6 +2,8 @@ package controller
 
 import (
 	"net/http"
+	"os"
+	"time"
 
 	"dawei.io/app/airfile/handler"
 	"github.com/gin-gonic/gin"
@@ -20,9 +22,24 @@ func Download(c *gin.Context) {
 		return
 	}
 
-	// Check timestamp
+	// Check timestamp - File life: 10 mins
+	timestamp := handler.FetchTimestamp(name)
+	uploadTime := handler.GenerateTime(timestamp)
+	timestampMax := uploadTime.Add(10 * time.Minute)
+	if timestampMax.Before(time.Now()) {
+		c.Redirect(http.StatusTemporaryRedirect, os.Getenv("REDIRECT_URL"))
+	}
 
 	// Download file from s3
 	url, err := handler.GetPresignedUrl(name)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error on fetching url",
+		})
+		return
+	}
+
+	// Response
+	c.Redirect(http.StatusTemporaryRedirect, url)
 }
