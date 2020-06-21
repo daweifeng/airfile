@@ -4,6 +4,9 @@
       <img alt="Airfile logo" src="../assets/logo.png">
       <h1>Airfile</h1>
     </div>
+    <div class="file-upload-section">
+      <Bar />
+    </div>
 
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
@@ -12,11 +15,12 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
+import Bar from '@/components/Bar'
 
 export default {
   name: 'Home',
   components: {
-    // HelloWorld
+    Bar
   }
 }
 </script>
