@@ -12,6 +12,7 @@
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-clipboard2": "^0.3.1",
     "vue-property-decorator": "^8.4.2",
     "vue-router": "^3.2.0",
     "vue2-dropzone": "^3.6.0"
