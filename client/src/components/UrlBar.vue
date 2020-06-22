@@ -1,11 +1,14 @@
 <template>
     <div class="url-section">
-        <div class="url-bar">
+      <div class="url-bar">
         <input class="url-input" ref="input"  type="text" :value="url" @focus="selectAll()">
-    </div>
+        <transition name="fade">
+          <div class="copy-alert" v-if="copied">URL Copied</div>
+        </transition>
+      </div>
     <div class="copy-button" @click="copy()">
-            Copy
-        </div>
+      Copy
+    </div>
     </div>
 </template>
 
@@ -15,6 +18,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component
 export default class UrlBar extends Vue {
     @Prop() url
+    copied = false
 
     mounted () {
       this.focusInput()
@@ -30,8 +34,9 @@ export default class UrlBar extends Vue {
 
     copy () {
       this.focusInput()
-      this.$copyText(this.url).then(function (e) {
-        alert('Copied')
+      this.$copyText(this.url).then((e) => {
+        this.copied = true
+        setTimeout(() => { this.copied = false }, 3000)
       }, function (e) {
         alert('Can not copy')
       })
@@ -45,6 +50,7 @@ export default class UrlBar extends Vue {
         text-align: center;
     }
     .url-bar {
+        position: relative;
         display: inline-block;
         border: none;
         border-radius: 18px;
@@ -69,6 +75,18 @@ export default class UrlBar extends Vue {
             padding: 0 2rem;
             outline: none;
         }
+
+        .copy-alert {
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: #3BB273;
+          color: #fff;
+          text-align: center;
+          line-height: 80px;
+          width: 100%;
+          height: 100%;
+        }
     }
 
     .copy-button {
@@ -90,5 +108,12 @@ export default class UrlBar extends Vue {
                 cursor: pointer;
                 background: #0582ca;
             }
+    }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
     }
 </style>
