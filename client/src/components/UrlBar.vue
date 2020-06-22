@@ -82,7 +82,7 @@ export default class UrlBar extends Vue {
             color: #fff;
             background: #00A6FB;
             border: none;
-            border-radius: 2rem;
+            border-radius: 18px;
             transition: 0.3s all linear;
             vertical-align: middle;
             &:hover {
