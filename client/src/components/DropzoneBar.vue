@@ -87,7 +87,7 @@ export default class DropzoneBar extends Vue {
     position: relative;
     border: none;
     border-radius: 18px;
-    box-shadow:5px 4px 35px rgba(131, 131, 131, 0.25);;
+    box-shadow:5px 4px 35px rgba(131, 131, 131, 0.25);
     width: 60vw;
     min-height: 80px;
     height: 80px;
