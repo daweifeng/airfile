@@ -1,6 +1,6 @@
 <template>
   <div v-if="uploaded">
-    <UrlBar :url="url" />
+    <UrlBar :url="url" @newfile="onNewFile()" />
   </div>
   <div v-else>
     <DropzoneBar
@@ -35,6 +35,10 @@ export default class Bar extends Vue {
   onSuccess (response: Response) {
     console.log(response);
     (this as any).uploaded = true
+  }
+
+  onNewFile () {
+    (this as any).uploaded = false
   }
 }
 </script>

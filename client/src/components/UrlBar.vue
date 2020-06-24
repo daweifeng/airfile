@@ -1,14 +1,21 @@
 <template>
-    <div class="url-section">
-      <div class="url-bar">
-        <input class="url-input" ref="input"  type="text" :value="url" @focus="selectAll()">
-        <transition name="fade">
-          <div class="copy-alert" v-if="copied">URL Copied</div>
-        </transition>
+    <div>
+        <div class="url-section">
+        <div class="url-bar">
+          <input class="url-input" ref="input"  type="text" :value="url" @focus="selectAll()">
+          <transition name="fade">
+            <div class="copy-alert" v-if="copied">URL Copied</div>
+          </transition>
+        </div>
+      <div class="button" @click="copy()">
+        Copy
       </div>
-    <div class="copy-button" @click="copy()">
-      Copy
-    </div>
+      </div>
+      <div class="new-file-section">
+        <div class="button" @click="newFile()">
+          New File
+        </div>
+      </div>
     </div>
 </template>
 
@@ -41,10 +48,18 @@ export default class UrlBar extends Vue {
         alert('Can not copy')
       })
     }
+
+    newFile () {
+      this.$emit('newfile')
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+    .new-file-section {
+      margin: 2rem 0;
+      text-align: center;
+    }
     .url-section {
         margin: auto;
         text-align: center;
@@ -89,7 +104,7 @@ export default class UrlBar extends Vue {
         }
     }
 
-    .copy-button {
+    .button {
             display: inline-block;
             text-align: center;
             width: 200px;
