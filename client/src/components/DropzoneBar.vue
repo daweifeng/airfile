@@ -1,23 +1,31 @@
 <template>
   <div>
-    <VueDropzone
-      ref="dropzone"
-      id="dropzone"
-      class="dropzone"
-      :useCustomSlot=true
-      :options="dropzoneOptions"
-      :include-styling="false"
-      @vdropzone-success="dropzoneOnSuccess"
-      @vdropzone-upload-progress="dropzoneUploadProgress"
-      @vdropzone-canceled="fileUploadCanceled"
-    >
-      <div class="hint">
-        Drag and drop your file here
-      </div>
-    </VueDropzone>
+    <div class="dropzone-section">
+      <VueDropzone
+        ref="dropzone"
+        id="dropzone"
+        class="dropzone"
+        :useCustomSlot=true
+        :options="dropzoneOptions"
+        :include-styling="false"
+        @vdropzone-success="dropzoneOnSuccess"
+        @vdropzone-upload-progress="dropzoneUploadProgress"
+        @vdropzone-canceled="fileUploadCanceled"
+        @vdropzone-error="dropzoneUploadError"
+      >
+        <div class="hint">
+          Drag and drop your file here
+        </div>
+      </VueDropzone>
+      <transition name="fade">
+        <div class="failed" v-if="failed">
+          Upload Failed
+        </div>
+      </transition>
+    </div>
     <div class="button-section">
       <button class="get-button" v-on:click="onSubmit" v-bind:disabled="uploading">
-        {{ uploading ? "Uploading" : "Get URL"}}
+        {{ buttonTextContent() }}
       </button>
     </div>
   </div>
@@ -36,20 +44,29 @@ export default class DropzoneBar extends Vue {
   data () {
     return {
       dropzoneOptions: {
-        url: 'https://httpbin.org/post',
+        url: `${process.env.VUE_APP_BACKEND_API}`,
         previewTemplate: this.template(),
         thumbnailWidth: 200,
         addRemoveLinks: true,
         autoProcessQueue: false
       },
       progress: 0,
-      uploading: false
+      uploading: false,
+      failed: false
     }
   }
 
   onSubmit () {
+    console.log(`${process.env.VUE_APP_BACKEND_API}`)
+    if (this.$refs.dropzone.getQueuedFiles().length === 0 && !this.failed) {
+      return
+    }
+    if (this.failed) {
+      this.failed = false
+    }
     this.$refs.dropzone.processQueue()
     this.uploading = true
+    this.failed = false
   }
 
   dropzoneOnSuccess (file, response) {
@@ -65,6 +82,25 @@ export default class DropzoneBar extends Vue {
   fileUploadCanceled (file) {
     this.uploading = false
     this.progress = 0
+  }
+
+  dropzoneUploadError (file, message, xhr) {
+    this.uploading = false
+    this.progress = 0
+    this.failed = true
+
+    file.status = 'queued'
+  }
+
+  buttonTextContent () {
+    if (this.failed) {
+      return 'Retry'
+    }
+    if (this.uploading) {
+      return 'Uploading'
+    } else {
+      return 'Get URL'
+    }
   }
 
   template () {
@@ -83,6 +119,26 @@ export default class DropzoneBar extends Vue {
 </script>
 
 <style lang="scss">
+  .dropzone-section {
+    position: relative;
+
+    .failed {
+      z-index: 11;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f94144;
+      color: rgb(252, 236, 236);
+      line-height: 80px;
+      text-align: center;
+      border-radius: 18px;
+      width: 60vw;
+      max-width: 1400px;
+      min-height: 80px;
+      height: 80px;
+    }
+  }
   #dropzone {
     position: relative;
     border: none;
@@ -163,4 +219,10 @@ export default class DropzoneBar extends Vue {
     width: 100%;
   }
 
+  .fade-enter-active, .fade-leave-active {
+      transition: opacity .3s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+  }
 </style>
