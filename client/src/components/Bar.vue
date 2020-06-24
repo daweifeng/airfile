@@ -27,7 +27,7 @@ interface Response {
 export default class Bar extends Vue {
   data () {
     return {
-      uploaded: true,
+      uploaded: false,
       url: 'test.com'
     }
   }
