@@ -81,6 +81,7 @@ export default class UrlBar extends Vue {
         vertical-align: middle;
         .url-input {
             display: block;
+            text-align: center;
             width: 100%;
             height: 100%;
             margin: auto;
