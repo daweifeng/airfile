@@ -15,7 +15,7 @@ import DropzoneBar from '@/components/DropzoneBar.vue'
 import UrlBar from '@/components/UrlBar.vue'
 
 interface Response {
-  url: string;
+  id: string;
 }
 
 @Component({
@@ -28,12 +28,12 @@ export default class Bar extends Vue {
   data () {
     return {
       uploaded: false,
-      url: 'test.com'
+      url: null
     }
   }
 
   onSuccess (response: Response) {
-    console.log(response);
+    (this as any).url = `${process.env.VUE_APP_BACKEND_DOWNLOAD_API}?key=${response.id}`;
     (this as any).uploaded = true
   }
 

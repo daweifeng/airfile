@@ -44,7 +44,7 @@ export default class DropzoneBar extends Vue {
   data () {
     return {
       dropzoneOptions: {
-        url: `${process.env.VUE_APP_BACKEND_API}`,
+        url: `${process.env.VUE_APP_BACKEND_UPLOAD_API}`,
         previewTemplate: this.template(),
         thumbnailWidth: 200,
         addRemoveLinks: true,
@@ -57,7 +57,7 @@ export default class DropzoneBar extends Vue {
   }
 
   onSubmit () {
-    console.log(`${process.env.VUE_APP_BACKEND_API}`)
+    console.log(`${process.env.VUE_APP_BACKEND_UPLOAD_API}`)
     if (this.$refs.dropzone.getQueuedFiles().length === 0 && !this.failed) {
       return
     }
