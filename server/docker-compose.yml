@@ -1,14 +1,15 @@
 version: '2'
 services:
-  dawei:
+  airfile-server:
     restart: always
     build:
       dockerfile: Dockerfile
       context: .
     environment:
       - VIRTUAL_HOST=airfile-api.dawei.io
-      - LETSENCRYPT_HOST=airfile-apidawei.io
+      - LETSENCRYPT_HOST=airfile-api.dawei.io
       - VIRTUAL_PORT=80  
+      - ENV="${ENV}"  
       - AWS_REGION="${AWS_REGION}"
       - S3_BUCKET="${S3_BUCKET}"
       - AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
