@@ -16,6 +16,6 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY --from=build /app/airfile-client/dist /usr/share/nginx/html
 # new
-COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
