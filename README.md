@@ -5,10 +5,13 @@
 <p align="center">
 Simply share your file with an URL
 </p>
+<p align="center">
+<a href="https://airfile.dawei.io">https://airfile.dawei.io</a></p>
+
 
 ### Frontend
-- [ ] UI Design
-- [ ] Implatement with VueJS
+- [x] UI Design
+- [x] Implatement with VueJS
 
 ### Backend
 - [x] Golang
@@ -21,4 +24,4 @@ Simply share your file with an URL
 
 ### Todo
 - [ ] Auto delete expired files
-- [ ] Dockerize backend server
+- [x] Dockerize backend server
