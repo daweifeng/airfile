@@ -2,8 +2,9 @@ version: "2"
 services: 
   airfile-client:
     restart: always
-    build: Dockerfile
-    context: .
+    build: 
+      dockerfile: Dockerfile
+      context: .
     env_file: .env.local
     environment: 
       - VIRTUAL_HOST=airfile.dawei.io
