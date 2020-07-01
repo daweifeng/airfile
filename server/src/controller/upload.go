@@ -1,7 +1,9 @@
 package controller
 
 import (
+	"container/heap"
 	"net/http"
+	"strconv"
 
 	"dawei.io/app/airfile/handler"
 	"github.com/gin-gonic/gin"
@@ -25,10 +27,10 @@ func Upload(c *gin.Context) {
 	}
 
 	// save id and key to mongodb
-	var reccord handler.Record
-	reccord.Name = file.Filename
+	var record handler.Record
+	record.Name = file.Filename
 
-	objID, err := handler.CreateRecord(&reccord)
+	objID, err := handler.CreateRecord(&record)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Error on recording",
@@ -41,4 +43,13 @@ func Upload(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"id": id,
 	})
+
+	// Add file info to Priority Queue
+	pq := c.MustGet("pq").(*handler.PriorityQueue)
+	timestamp, _ := strconv.ParseInt(handler.FetchTimestamp(record.Name), 10, 64)
+	item := handler.Item{
+		Value:     record.Name,
+		Timestamp: timestamp,
+	}
+	heap.Push(pq, &item)
 }
