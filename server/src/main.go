@@ -1,15 +1,19 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 
 	"dawei.io/app/airfile/controller"
+	"dawei.io/app/airfile/handler"
+	"dawei.io/app/airfile/middleware"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/robfig/cron/v3"
 )
 
 func main() {
@@ -20,6 +24,15 @@ func main() {
 			return
 		}
 	}
+
+	// Initialize Priority Queue
+	pq := make(handler.PriorityQueue, 0)
+	heap.Init(&pq)
+
+	// Start cron job
+	c := cron.New()
+	handler.StartFileDestroyCron(c, &pq)
+	c.Start()
 
 	// Logger
 	gin.DisableConsoleColor()
@@ -34,6 +47,9 @@ func main() {
 		AllowMethods:    []string{"GET", "PUT", "OPTION"},
 		AllowHeaders:    []string{"Content-Length", "Content-Type", "Accept", "Origin", "Cache-Control", "X-Requested-With"},
 	}))
+
+	// PriorityQueue Middleware
+	r.Use(middleware.PriorityQueueMiddleware(&pq))
 
 	// Routes
 	r.GET("/api", func(c *gin.Context) {
