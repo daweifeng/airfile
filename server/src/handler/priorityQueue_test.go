@@ -16,9 +16,9 @@ func TestPriorityQueueInit(t *testing.T) {
 	i := 0
 	for value, timestamp := range items {
 		pq[i] = &Item{
-			value:     value,
-			timestamp: timestamp,
-			index:     1,
+			Value:     value,
+			Timestamp: timestamp,
+			Index:     1,
 		}
 		i++
 	}
@@ -28,8 +28,8 @@ func TestPriorityQueueInit(t *testing.T) {
 func TestPriorityQueuePush(t *testing.T) {
 	pq := make(PriorityQueue, 0)
 	item := &Item{
-		value:     "objectid_1",
-		timestamp: 1592176571433757000,
+		Value:     "objectid_1",
+		Timestamp: 1592176571433757000,
 	}
 	heap.Init(&pq)
 	heap.Push(&pq, item)
@@ -47,9 +47,9 @@ func TestPriorityQueuePop(t *testing.T) {
 	i := 0
 	for value, timestamp := range items {
 		pq[i] = &Item{
-			value:     value,
-			timestamp: timestamp,
-			index:     1,
+			Value:     value,
+			Timestamp: timestamp,
+			Index:     1,
 		}
 		i++
 	}
@@ -57,11 +57,11 @@ func TestPriorityQueuePop(t *testing.T) {
 
 	a := pq[0]
 
-	fmt.Println("a", a.value)
+	fmt.Println("a", a.Value)
 
 	item := heap.Pop(&pq).(*Item)
-	if item.timestamp != 1 {
-		t.Errorf("Pop(%q) != %q, want %q", item.timestamp, 1, 1)
+	if item.Timestamp != 1 {
+		t.Errorf("Pop(%q) != %q, want %q", item.Timestamp, 1, 1)
 	}
 }
 
@@ -76,9 +76,9 @@ func TestPriorityQueuePeak(t *testing.T) {
 	i := 0
 	for value, timestamp := range items {
 		pq[i] = &Item{
-			value:     value,
-			timestamp: timestamp,
-			index:     1,
+			Value:     value,
+			Timestamp: timestamp,
+			Index:     1,
 		}
 		i++
 	}
@@ -86,7 +86,7 @@ func TestPriorityQueuePeak(t *testing.T) {
 
 	item := *pq[0]
 
-	if item.timestamp != 1 {
-		t.Errorf("Peak(%q) != %q, want %q", item.timestamp, 1, 1)
+	if item.Timestamp != 1 {
+		t.Errorf("Peak(%q) != %q, want %q", item.Timestamp, 1, 1)
 	}
 }
