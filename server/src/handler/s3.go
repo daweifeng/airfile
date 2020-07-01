@@ -56,3 +56,20 @@ func GetPresignedUrl(fileName string) (string, error) {
 
 	return urlStr, nil
 }
+
+// RemoveFromS3 will remove file from s3
+func RemoveFromS3(fileName string) error {
+	//Create AWS session
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(os.Getenv("AWS_REGION")),
+	})
+	input := &s3.DeleteObjectInput{
+		Bucket: aws.String(os.Getenv("S3_BUCKET")),
+		Key:    aws.String("files/" + fileName),
+	}
+
+	// RemoveFromS3
+	_, err = s3.New(sess).DeleteObject(input)
+
+	return err
+}
