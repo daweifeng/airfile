@@ -31,7 +31,7 @@ export default class UrlBar extends Vue {
     copied = false
 
     mounted () {
-      this.copy()
+      this.focusInput()
     }
 
     selectAll () {
