@@ -12,6 +12,7 @@ Simply share your file with an URL
 ### Frontend
 - [x] UI Design
 - [x] Implatement with VueJS
+- [x] Docker
 
 ### Backend
 - [x] Golang
@@ -19,9 +20,7 @@ Simply share your file with an URL
 - [x] AWS S3
 - [x] MongoDB
 - [x] Unit testing
+- [x] Auto-destroy uploaded file periodically
+- [x] Docker
 - [ ] CI/CD
 
-
-### Todo
-- [ ] Auto delete expired files
-- [x] Dockerize backend server

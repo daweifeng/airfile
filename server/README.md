@@ -19,3 +19,8 @@
 cd server/src
 go test handler/
 ```
+
+## Deploy
+```
+docker-compose up -d
+```
