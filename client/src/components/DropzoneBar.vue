@@ -23,6 +23,9 @@
         </div>
       </transition>
     </div>
+    <div class="hint">
+      Max file size: 100MB
+    </div>
     <div class="button-section">
       <button class="get-button" v-on:click="onSubmit" v-bind:disabled="uploading">
         {{ buttonTextContent() }}
@@ -48,16 +51,17 @@ export default class DropzoneBar extends Vue {
         previewTemplate: this.template(),
         thumbnailWidth: 200,
         addRemoveLinks: true,
-        autoProcessQueue: false
+        autoProcessQueue: false,
+        maxFilesize: 100 // MB
       },
       progress: 0,
       uploading: false,
-      failed: false
+      failed: false,
+      fileOversized: false
     }
   }
 
   onSubmit () {
-    console.log(`${process.env.VUE_APP_BACKEND_UPLOAD_API}`)
     if (this.$refs.dropzone.getQueuedFiles().length === 0 && !this.failed) {
       return
     }
@@ -75,8 +79,8 @@ export default class DropzoneBar extends Vue {
 
   dropzoneUploadProgress (file, progress, bytesSent) {
     this.progress = progress
-    document.querySelector('.progress').style.width = progress + '%'
-    document.querySelector('.dz-upload').textContent = Math.round(progress) + '%'
+    document.querySelector('.progress').style.width = this.progress + '%'
+    document.querySelector('.dz-upload').textContent = Math.round(this.progress) + '%'
   }
 
   fileUploadCanceled (file) {
@@ -89,7 +93,14 @@ export default class DropzoneBar extends Vue {
     this.progress = 0
     this.failed = true
 
-    file.status = 'queued'
+    if (file.size > 100000000) {
+      this.fileOversized = true
+      this.$refs.dropzone.removeAllFiles()
+      this.failed = false
+    } else {
+      file.status = 'queued'
+    }
+    console.log(message)
   }
 
   buttonTextContent () {
@@ -192,7 +203,7 @@ export default class DropzoneBar extends Vue {
       }
   }
   .button-section {
-    margin: 2rem;
+    margin: 1rem;
     text-align: center;
   }
   .get-button {
@@ -224,5 +235,9 @@ export default class DropzoneBar extends Vue {
     }
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
       opacity: 0;
+  }
+  .hint {
+    text-align: center;
+    padding: 1rem;
   }
 </style>
