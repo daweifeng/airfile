@@ -11,6 +11,9 @@
         Copy
       </div>
       </div>
+      <div class="hint">
+        The URL will be valid for <strong>10 minutes</strong>
+      </div>
       <div class="new-file-section">
         <div class="button" @click="newFile()">
           New File
@@ -28,7 +31,7 @@ export default class UrlBar extends Vue {
     copied = false
 
     mounted () {
-      this.focusInput()
+      this.copy()
     }
 
     selectAll () {
@@ -41,11 +44,12 @@ export default class UrlBar extends Vue {
 
     copy () {
       this.focusInput()
-      this.$copyText(this.url).then((e) => {
+      this.$copyText(this.url).then(() => {
         this.copied = true
         setTimeout(() => { this.copied = false }, 3000)
-      }, function (e) {
+      }).catch(e => {
         alert('Can not copy')
+        console.log(e)
       })
     }
 
