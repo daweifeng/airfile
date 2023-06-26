@@ -9,6 +9,7 @@ services:
       - VIRTUAL_HOST=airfile-api.dawei.io
       - LETSENCRYPT_HOST=airfile-api.dawei.io
       - VIRTUAL_PORT=80  
+      - GIN_MODE=release
       - "ENV=${ENV}"  
       - "AWS_REGION=${AWS_REGION}"
       - "S3_BUCKET=${S3_BUCKET}"
@@ -21,5 +22,5 @@ services:
 
 networks:
     default:
-      external:
-        name: nginx-proxy
+      name: nginx-proxy
+      external: true
