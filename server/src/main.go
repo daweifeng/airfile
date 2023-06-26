@@ -43,9 +43,9 @@ func main() {
 
 	// CORS config
 	r.Use(cors.New(cors.Config{
-		AllowAllOrigins: true,
-		AllowMethods:    []string{"GET", "PUT", "OPTION"},
-		AllowHeaders:    []string{"Content-Length", "Content-Type", "Accept", "Origin", "Cache-Control", "X-Requested-With"},
+		AllowOrigins: []string{"https://airfile.dawei.io"},
+		AllowMethods: []string{"GET", "PUT", "OPTION"},
+		AllowHeaders: []string{"Content-Length", "Content-Type", "Accept", "Origin", "Cache-Control", "X-Requested-With"},
 	}))
 
 	// PriorityQueue Middleware

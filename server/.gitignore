@@ -1,4 +1,4 @@
 .env
-.DS_Stores
+.DS_Store
 .vscode
 gin.log
