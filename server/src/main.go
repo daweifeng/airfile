@@ -42,7 +42,11 @@ func main() {
 	r := gin.Default()
 
 	// CORS config
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"https://airfile.dawei.io"},
+		AllowMethods: []string{"GET", "PUT", "OPTION"},
+		AllowHeaders: []string{"Content-Length", "Content-Type", "Accept", "Origin", "Cache-Control", "X-Requested-With"},
+	}))
 
 	// PriorityQueue Middleware
 	r.Use(middleware.PriorityQueueMiddleware(&pq))
